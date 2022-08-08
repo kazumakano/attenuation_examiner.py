@@ -38,5 +38,5 @@ class Map(PfMap):
                 with plt.ion():
                     plt.connect("motion_notify_event", lambda event: self._on_hover(annot, event, scatter))
 
-            case tmp:
-                raise Exception(f"backend is expected to be tk or widget but {tmp} was given")
+            case _:
+                raise Exception("map.py: backend is expected to be tk or widget")
