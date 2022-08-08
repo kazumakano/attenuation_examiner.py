@@ -21,3 +21,4 @@ class Log(PfLog):
                     self.mac_list = np.hstack((self.mac_list, row[1]))
 
         print(f"log.py: {path.basename(file)} has been loaded")
+        print(f"log.py: log begins at {self.ts[0]} and ends at {self.ts[-1]}")
