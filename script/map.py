@@ -1,5 +1,6 @@
 import numpy as np
 import particle_filter.script.parameter as pf_param
+from matplotlib import get_backend
 from matplotlib import pyplot as plt
 from particle_filter.script.map import Map as PfMap
 
@@ -20,11 +21,22 @@ class Map(PfMap):
         scatter = plt.scatter(self.beacon_pos_list[:, 0], self.beacon_pos_list[:, 1])
         plt.scatter(self.beacon_pos_list[beacon_idx_list, 0], self.beacon_pos_list[beacon_idx_list, 1])
 
-        print("map.py: press any button to stop")
-        with plt.ion():
-            while True:
-                plt.connect("motion_notify_event", lambda event: self._on_hover(annot, event, scatter))
-                if plt.waitforbuttonpress(0.5):
-                    break
+        backend = get_backend()
+        print(f"map.py: matplotlib GUI backend is {backend}")
+        match backend:
+            case "TkAgg":                            # tk
+                print("map.py: press any button to stop")
+                with plt.ion():
+                    while True:
+                        plt.connect("motion_notify_event", lambda event: self._on_hover(annot, event, scatter))
+                        if plt.waitforbuttonpress(0.5):
+                            break
 
-        plt.close()
+                plt.close()
+
+            case "module://ipympl.backend_nbagg":    # widget
+                with plt.ion():
+                    plt.connect("motion_notify_event", lambda event: self._on_hover(annot, event, scatter))
+
+            case tmp:
+                raise Exception(f"backend is expected to be tk or widget but {tmp} was given")
