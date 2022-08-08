@@ -13,7 +13,6 @@ def get_rssi_info_list(log: Log) -> pd.DataFrame:
 
     rssi_info_list = pd.DataFrame({
         "mac address": log.vis_mac_list,
-        "rssi": log.vis_rssi_list,
         "mode": rssi_info_list[:, 0],
         "median": rssi_info_list[:, 1],
         "mean": rssi_info_list[:, 2]
