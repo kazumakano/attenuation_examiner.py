@@ -4,7 +4,7 @@ import pandas as pd
 from .log import Log
 
 
-def print_rssi_info(log: Log) -> pd.DataFrame:
+def get_rssi_info(log: Log) -> pd.DataFrame:
     rssi_info = np.empty((len(log.vis_mac_list), 3), dtype=np.float32)
     for i in range(len(log.vis_mac_list)):
         rssi_info[i][0] = np.mean(multimode(log.vis_rssi_list[i]))
