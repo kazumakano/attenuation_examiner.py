@@ -29,15 +29,17 @@ class Log(PfLog):
         if not hasattr(self, "vis_mac_list"):
             raise Exception("log.py: log visualizer hasn't been initialized yet")
 
-        rssi_info_list = np.empty((len(self.vis_mac_list), 3), dtype=np.float32)
+        rssi_info_list = np.empty((len(self.vis_mac_list), 4), dtype=np.float32)
         for i in range(len(self.vis_mac_list)):
             rssi_info_list[i][0] = np.mean(multimode(self.vis_rssi_list[i]))
             rssi_info_list[i][1] = np.median(self.vis_rssi_list[i])
             rssi_info_list[i][2] = np.mean(self.vis_rssi_list[i])
+            rssi_info_list[i][3] = self.vis_rssi_list[i].max()
 
         print(pd.DataFrame({
             "mac address": self.vis_mac_list,
             "mode": rssi_info_list[:, 0],
             "median": rssi_info_list[:, 1],
-            "mean": rssi_info_list[:, 2]
+            "mean": rssi_info_list[:, 2],
+            "max": rssi_info_list[:, 3]
         }))
